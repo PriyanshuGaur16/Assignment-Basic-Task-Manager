@@ -1,41 +1,135 @@
 # Assignment-Basic-Task-Manager
 Backend + Frontend
-Run the backend
 
-1. Prerequisites
-   - .NET 8 SDK installed (https://dotnet.microsoft.com/download)
+A simple full-stack **Task Manager** application built using **.NET 8 (C#)** for the backend and **React + TypeScript** for the frontend.  
+This project demonstrates essential full-stack development skills such as REST API design, state management, and frontend-backend integration.
 
-2. Project structure
-   - TaskManager.API.csproj
-   - Program.cs
-   - Controllers/TasksController.cs
-   - Models/TaskItem.cs
-   - Repositories/ITaskRepository.cs
-   - Repositories/InMemoryTaskRepository.cs
+---
 
-3. Run
-   - From the project folder (where TaskManager.API.csproj lives):
-     ```bash
-     dotnet restore
-     dotnet run
-     ```
-   - By default the app will run on the Kestrel default port (e.g., https://localhost:7243 or similar). Check console output for the exact URL.
+## 🎯 Objective
 
-4. Test endpoints (examples)
-   - Get all tasks:
-     ```bash
-     curl https://localhost:7243/api/tasks
-     ```
-   - Create a task:
-     ```bash
-     curl -X POST https://localhost:7243/api/tasks -H "Content-Type: application/json" -d '{"description":"Buy milk","isCompleted":false}'
-     ```
-   - Update a task (toggle complete):
-     ```bash
-     curl -X PUT https://localhost:7243/api/tasks/{id} -H "Content-Type: application/json" -d '{"id":"{id}","description":"Buy milk","isCompleted":true}'
-     ```
-   - Delete a task:
-     ```bash
-     curl -X DELETE https://localhost:7243/api/tasks/{id}
-     ```
+The goal of this project is to create a basic task management system that allows users to:
+- View all tasks
+- Add a new task
+- Mark a task as completed or uncompleted
+- Delete a task
+
+This project uses **in-memory storage** — meaning data resets when the backend restarts (no database integration yet).
+
+---
+
+## 🏗️ Tech Stack
+
+### 🔹 Backend
+- **Language:** C#  
+- **Framework:** .NET 8 Web API  
+- **Storage:** In-memory list  
+- **Pattern:** RESTful API
+
+### 🔹 Frontend
+- **Language:** TypeScript  
+- **Library:** React  
+- **Styling:** Tailwind CSS 
+- **HTTP Client:** Axios  
+
+---
+
+## ⚙️ Features
+
+| Feature | Description |
+|----------|-------------|
+| ➕ Add Task | Add a new task with a description |
+| ✅ Toggle Status | Mark a task as completed/uncompleted |
+| 🗑️ Delete Task | Remove a task from the list |
+| 📋 View Tasks | See all tasks fetched from backend |
+| ⚡ Live Sync | Updates instantly via REST API |
+
+---
+
+## 📂 Project Structure
+
+```
+TaskManager/
+│
+├── backend/
+│   ├── Controllers/
+│   │   └── TasksController.cs
+│   ├── Models/
+│   │   └── TaskItem.cs
+│   ├── Repositories/
+│   │   ├── ITaskRepository.cs
+│   │   └── InMemoryTaskRepository.cs
+│   ├── Program.cs
+│   └── TaskManager.API.csproj
+│
+└── frontend/
+    ├── src/
+    │   ├── api.ts
+    │   ├── types.ts
+    │   ├── App.tsx
+    │   ├── TaskItemRow.tsx
+    │   └── index.css
+    ├── package.json
+    └── tsconfig.json
+```
+
+---
+
+## 🚀 Setup & Run Instructions
+
+### 🧩 1. Run Backend (C# .NET 8)
+```bash
+cd backend
+dotnet run
+```
+By default, the backend runs on:
+```
+https://localhost:7243
+```
+
+**Test API endpoints**  
+```bash
+GET     /api/tasks
+POST    /api/tasks
+PUT     /api/tasks/{id}
+DELETE  /api/tasks/{id}
+```
+
+Example using `curl`:
+```bash
+curl -X POST https://localhost:7243/api/tasks      -H "Content-Type: application/json"      -d '{"description":"Learn .NET","isCompleted":false}'
+```
+
+---
+
+### 🖥️ 2. Run Frontend (React + TypeScript)
+```bash
+cd frontend
+npm install
+npm start
+```
+Runs on:
+```
+http://localhost:5173
+```
+(If using Create React App: http://localhost:3000)
+
+---
+
+### 🌐 3. Configure CORS (if needed)
+Ensure your backend allows requests from the frontend:
+```csharp
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy => policy.WithOrigins("http://localhost:5173", "http://localhost:3000")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+});
+
+app.UseCors("AllowFrontend");
+```
+
+---
+
 
