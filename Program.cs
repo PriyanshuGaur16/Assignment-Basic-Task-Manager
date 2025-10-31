@@ -5,7 +5,6 @@ using TaskManager.API.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 // Add services
 builder.Services.AddControllers();
 builder.Services.AddSingleton<ITaskRepository, InMemoryTaskRepository>();
